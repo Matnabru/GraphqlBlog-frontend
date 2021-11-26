@@ -1,22 +1,44 @@
 import { Layout } from '../../layouts/layout';
 import { getAllPostIds, getPostData } from '../../../lib/posts';
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    useQuery,
+    gql
+  } from "@apollo/client";
+import client from '@/lib/apollo-client';
+import { da } from 'date-fns/locale';
 
-export default ({ postData }: UnwrapStaticPromiseProps<typeof getStaticProps>) => {
+export default ({ article }: UnwrapStaticPromiseProps<typeof getStaticProps>) => {
     return (
-        <Layout pageTitle={postData.title}>
-            <article>
-                <h1>{postData.title}</h1>
-                <div>
-                    <p>{postData.date}</p>
-                </div>
-                <div dangerouslySetInnerHTML={{ __html: postData.contentHtml }} />
-            </article>
-        </Layout>
+        <Layout pageTitle={article.title}>
+        <div>
+            <h1>{article.title}</h1>
+            <p>{article.body}</p>
+            <br></br>
+        </div>
+    </Layout>
     );
 };
 
 export async function getStaticPaths() {
-    const paths = getAllPostIds();
+    const getAllArticles = gql`query {
+        getArticles{
+          title
+          body
+          _id
+          createdAt
+        }
+      }`
+
+    const { data } = await client.query({
+        query: getAllArticles
+      })
+    const ids = data.getArticles.map( (article:any) => article._id);
+    console.log(ids)
+    const paths = ids.map( (id:String) => ({params: {id}}))
+    console.log(paths)
     return {
         paths,
         fallback: false,
@@ -30,10 +52,23 @@ export const getStaticProps = async ({
         id: string;
     };
 }) => {
-    const postData = await getPostData(params.id);
+    const getPost = gql`
+    query {
+        getArticle(_id: "${params.id}"){
+          title
+          body
+          _id
+          createdAt
+        }
+      }
+    `
+    const { data } = await client.query({
+        query: getPost
+      })
+      console.log(data);
     return {
         props: {
-            postData,
-        },
+            article : data.getArticle
+        }
     };
 };

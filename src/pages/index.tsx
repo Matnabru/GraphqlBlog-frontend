@@ -1,10 +1,19 @@
 import { Layout } from '@/src/layouts';
 import { LogoAexol } from '@/src/assets';
 import { TestMolecules } from '@/src/components';
-import aexol_logo from '@/public/images/aexol_logo.svg';
-import aexol_full_logo from '@/public/images/aexol_full_logo.png';
 import Link from 'next/link';
 import styled from '@emotion/styled';
+import client from '@/lib/apollo-client';
+import { ArticleList } from '../components/ArticleList';
+import {
+    ApolloClient,
+    InMemoryCache,
+    ApolloProvider,
+    useQuery,
+    gql
+  } from "@apollo/client";
+
+
 
 const ALink = styled.div`
     a {
@@ -14,18 +23,37 @@ const ALink = styled.div`
 
 console.log(process.env.NEXT_PUBLIC_HOST);
 
-const HomePage = () => {
+const HomePage = ({ articles }: UnwrapStaticPromiseProps<typeof getStaticProps>) => {
     return (
         <Layout pageTitle="HomePage">
-            <TestMolecules />
-            <LogoAexol />
+            <TestMolecules /> 
             <ALink>
                 <Link href="/posts/first">Dynamic Route Post Example</Link>
+                <ArticleList articles={articles}></ArticleList>
             </ALink>
-            <img src={aexol_logo.src} alt="" />
-            <img src={aexol_full_logo.src} alt="" />
         </Layout>
     );
 };
 
 export default HomePage;
+
+export const getStaticProps = async () => {
+    const getAllArticles = gql`query {
+        getArticles{
+          title
+          body
+          _id
+          createdAt
+        }
+      }`
+
+    const { data } = await client.query({
+        query: getAllArticles
+      })
+    console.log(data.getArticles)
+    return {
+        props: {
+            articles : data.getArticles
+        },
+    };
+};

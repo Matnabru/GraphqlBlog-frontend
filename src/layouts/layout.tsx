@@ -13,7 +13,7 @@ const Header = styled.header`
     display: flex;
     height: 150px;
     width: 100%;
-    background-color: aliceblue;
+    background-color: #dc2f2f;
     align-items: center;
 
     p {
@@ -32,11 +32,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, home, pageTitle }) => 
         <div>
             <CustomHelmet pageTitle={pageTitle ? pageTitle : undefined} />
             <Header>
-                <p>Nav Link</p>
-                <p>Nav Link</p>
-                <p>Nav Link</p>
-                <p>Nav Link</p>
-                <p>Nav Link</p>
+                <p>Recent Posts</p>
+                <p>Explore Api</p>
+                <p>Backend Code</p>
+                <p>Frontend Code</p>
+                <p>Add new post</p>
             </Header>
             <Container>{children}</Container>
         </div>
