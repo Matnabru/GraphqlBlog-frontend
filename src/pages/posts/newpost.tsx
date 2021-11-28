@@ -10,7 +10,7 @@ import {
 import client from '@/lib/apollo-client';
 import { da } from 'date-fns/locale';
 
-export default ({ }: UnwrapStaticPromiseProps<typeof getStaticProps>) => {
+export default () => {
     return (
         <Layout pageTitle={"Add new article"}>
         <div>
