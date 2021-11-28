@@ -6,7 +6,7 @@
         "dev": "dotenv -e .env.development -- next dev",
         "build:development": "dotenv -e .env.development -- next build && next export",
         "build:production": "dotenv -e .env.production -- next build && next export",
-        "build": "dotenv -e .env.development -- next build",
+        "build": "dotenv -e .env.production -- next build",
         "start": "next start -p $PORT",
         "zeus": "zeus https://linktoyourschema.com/graphql --ts ./"
     },
