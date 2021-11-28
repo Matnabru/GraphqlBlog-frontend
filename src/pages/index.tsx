@@ -13,7 +13,10 @@ import {
     gql
   } from "@apollo/client";
 
+const Container = styled.div`
 
+
+`
 
 const ALink = styled.div`
     a {
@@ -26,11 +29,11 @@ console.log(process.env.NEXT_PUBLIC_HOST);
 const HomePage = ({ articles }: UnwrapStaticPromiseProps<typeof getStaticProps>) => {
     return (
         <Layout pageTitle="HomePage">
-            <TestMolecules /> 
-            <ALink>
-                <Link href="/posts/first">Dynamic Route Post Example</Link>
-                <ArticleList articles={articles}></ArticleList>
-            </ALink>
+            <Container>
+                <ALink>
+                    <ArticleList articles={articles}></ArticleList>
+                </ALink>
+            </Container>
         </Layout>
     );
 };

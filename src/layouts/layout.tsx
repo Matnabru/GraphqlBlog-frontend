@@ -1,7 +1,7 @@
 import React from 'react';
 import styled from '@emotion/styled';
 import { CustomHelmet } from '@/src/components';
-
+import Link from 'next/link';
 export const siteTitle = 'Next.js Sample Website';
 
 interface LayoutProps {
@@ -10,14 +10,29 @@ interface LayoutProps {
 }
 
 const Header = styled.header`
+    position: relative;
+    overflow: hidden;
+
     display: flex;
-    height: 150px;
-    width: 100%;
     background-color: #dc2f2f;
     align-items: center;
 
-    p {
-        margin-right: 25px;
+    p{
+        float: left;
+        color: #f2f2f2;
+        text-align: center;
+        padding: 14px 16px;
+        text-decoration: none;
+    }
+    p:hover {
+        background-color: #ddd;
+        a{
+            color: black;
+        }
+      }
+    a {
+        font-size: 120%;
+        text-decoration: none;
     }
 `;
 
@@ -32,11 +47,11 @@ export const Layout: React.FC<LayoutProps> = ({ children, home, pageTitle }) => 
         <div>
             <CustomHelmet pageTitle={pageTitle ? pageTitle : undefined} />
             <Header>
-                <p>Recent Posts</p>
-                <p>Explore Api</p>
-                <p>Backend Code</p>
-                <p>Frontend Code</p>
-                <p>Add new post</p>
+                <p><Link href="/">Recent Posts</Link></p>
+                <p><a target="_blank" href="https://graphqlbackend-blog.herokuapp.com/graphql">Explore Api</a></p>
+                <p><a target="_blank" href="https://github.com/Matnabru/GraphqlBlog-backend">Backend Code</a></p>
+                <p><a target="_blank" href="https://github.com/Matnabru/GraphqlBlog-frontend">Frontend Code</a></p>
+                <p><Link href="/posts/newpost">Add New Post</Link></p>
             </Header>
             <Container>{children}</Container>
         </div>

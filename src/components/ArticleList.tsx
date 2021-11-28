@@ -20,13 +20,14 @@ const Header = styled.header`
 `;
 
 const Container = styled.div`
-
+    margin-right: 5%;
+    margin-left:5%;
 `;
 
 export const ArticleList: React.FC<LayoutProps> = ({ articles }) => {
     return (
-        <div>
+        <Container>
             {articles.map(article => <ArticleItem key={article._id} article={article}></ArticleItem>)}
-        </div>
+        </Container>
     );
 };
